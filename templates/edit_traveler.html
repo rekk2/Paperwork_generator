@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Traveler</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script>
+        function deletePart(partIndex) {
+            document.getElementById('part_' + partIndex).remove();
+        }
+
+        function addPart() {
+            const partIndex = document.querySelectorAll('.part').length + 1;
+            const partDiv = document.createElement('div');
+            partDiv.className = 'part';
+            partDiv.id = 'part_' + partIndex;
+            partDiv.innerHTML = `
+                <label for="part_number_${partIndex}">Part Number:</label>
+                <input type="text" id="part_number_${partIndex}" name="part_number" required><br><br>
+
+                <label for="description_${partIndex}">Description:</label>
+                <input type="text" id="description_${partIndex}" name="description" required><br><br>
+
+                <label for="qty_boxes_${partIndex}">Qty Boxes:</label>
+                <input type="number" id="qty_boxes_${partIndex}" name="qty_boxes" required><br><br>
+
+                <label for="total_qty_${partIndex}">Total Qty:</label>
+                <input type="number" id="total_qty_${partIndex}" name="total_qty" required><br><br>
+
+                <label for="from_locations_${partIndex}">From Locations:</label>
+                <input type="text" id="from_locations_${partIndex}" name="from_locations" required><br><br>
+
+                <button type="button" onclick="deletePart(${partIndex})">Delete Part</button>
+                <input type="hidden" name="part_deleted_${partIndex}" id="part_deleted_${partIndex}" value="false">
+            `;
+            document.getElementById('parts_container').appendChild(partDiv);
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Edit Traveler</h1>
+        <form action="{{ url_for('edit_traveler', serial_number=traveler.serial_number) }}" method="post">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" value="{{ traveler.name }}" required><br><br>
+
+            <label for="pallet_number">Pallet Number:</label>
+            <input type="text" id="pallet_number" name="pallet_number" value="{{ traveler.pallet_number }}" required><br><br>
+
+            <label for="pallet_type">Pallet Type:</label>
+            <input type="text" id="pallet_type" name="pallet_type" value="{{ traveler.pallet_type }}" required><br><br>
+
+            <label for="pallet_contents">Pallet Contents:</label>
+            <input type="text" id="pallet_contents" name="pallet_contents" value="{{ traveler.pallet_contents }}" required><br><br>
+
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" value="{{ traveler.date }}" required><br><br>
+
+            <h2>Parts</h2>
+            <div id="parts_container" class="container">
+                {% for part in traveler.parts %}
+                    <div class="part" id="part_{{ loop.index }}">
+                        <label for="part_number_{{ loop.index }}">Part Number:</label>
+                        <input type="text" id="part_number_{{ loop.index }}" name="part_number" value="{{ part.part_number }}" required><br><br>
+
+                        <label for="description_{{ loop.index }}">Description:</label>
+                        <input type="text" id="description_{{ loop.index }}" name="description" value="{{ part.description }}" required><br><br>
+
+                        <label for="qty_boxes_{{ loop.index }}">Qty Boxes:</label>
+                        <input type="number" id="qty_boxes_{{ loop.index }}" name="qty_boxes" value="{{ part.qty_boxes }}" required><br><br>
+
+                        <label for="total_qty_{{ loop.index }}">Total Qty:</label>
+                        <input type="number" id="total_qty_{{ loop.index }}" name="total_qty" value="{{ part.total_qty }}" required><br><br>
+
+                        <label for="from_locations_{{ loop.index }}">From Locations:</label>
+                        <input type="text" id="from_locations_{{ loop.index }}" name="from_locations" value="{{ part.from_locations | join(',') }}" required><br><br>
+                        
+                        <button type="button" onclick="deletePart('{{ loop.index }}')">Delete Part</button>
+                        <input type="hidden" name="part_deleted_{{ loop.index }}" id="part_deleted_{{ loop.index }}" value="false">
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="btn-container">
+                <button type="button" onclick="addPart()">Add Part</button>
+            </div>
+
+            <div class="btn-container">
+                <button type="submit">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

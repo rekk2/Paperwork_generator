@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Search Travelers</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  </head>
+  <body>
+    <div class="container">
+      <h1>Search Travelers</h1>
+      <form action="/search_results" method="post">
+        <label for="search_type">Search By:</label>
+        <select id="search_type" name="search_type" required>
+          <option value="serial_number">Serial Number</option>
+          <option value="part_number">Part Number</option>
+        </select>
+        <input type="text" id="search_query" name="search_query" required>
+        <button type="submit">Search</button>
+      </form>
+    </div>
+  </body>
+</html>

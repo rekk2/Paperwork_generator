@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Traveler Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  </head>
+  <body>
+    <div class="container">
+      <h1>Traveler Details</h1>
+      <p><strong>Serial Number:</strong> {{ traveler['serial_number'] }}</p>
+      <p><strong>Name:</strong> {{ traveler['name'] }}</p>
+      <p><strong>Pallet Number:</strong> {{ traveler['pallet_number'] }}</p>
+      <p><strong>Pallet Type:</strong> {{ traveler['pallet_type'] }}</p>
+      <p><strong>Pallet Contents:</strong> {{ traveler['pallet_contents'] }}</p>
+      <p><strong>Date:</strong> {{ traveler['date'] }}</p>
+      <h3>Parts</h3>
+      <ul>
+        {% for part in traveler['parts'] %}
+          <li>
+            <p><strong>Part Number:</strong> {{ part['part_number'] }}</p>
+            <p><strong>Description:</strong> {{ part['description'] }}</p>
+            <p><strong>Qty Boxes:</strong> {{ part['qty_boxes'] }}</p>
+            <p><strong>Total Qty:</strong> {{ part['total_qty'] }}</p>
+            <p><strong>From Locations:</strong> {{ part['from_locations']|join(', ') }}</p>
+          </li>
+        {% endfor %}
+      </ul>
+      <a href="/edit_traveler/{{ traveler['serial_number'] }}">Edit Traveler</a>
+      <a href="/reprint_traveler/{{ traveler['serial_number'] }}">Re-Print Traveler</a>
+      <br>
+      <a href="/search">Back to Search</a>
+    </div>
+  </body>
+</html>

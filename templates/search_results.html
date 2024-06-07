@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Search Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  </head>
+  <body>
+    <div class="container">
+      <h1>Search Results</h1>
+      {% if travelers %}
+        <ul>
+          {% for traveler in travelers %}
+            <li>
+              <a href="{{ url_for('view_traveler', serial_number=traveler['serial_number']) }}">
+                Serial Number: {{ traveler['serial_number'] }} - Part Numbers: {{ traveler['parts']|map(attribute='part_number')|join(', ') }}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>No travelers found.</p>
+      {% endif %}
+      <a href="/">Back to Home</a>
+    </div>
+  </body>
+</html>

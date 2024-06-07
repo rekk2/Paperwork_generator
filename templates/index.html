@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Create Traveler</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  </head>
+  <body>
+    <div class="container">
+      <h1>Create Traveler</h1>
+      <form action="/create_traveler" method="post">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="pallet_number">Pallet Number:</label>
+        <input type="text" id="pallet_number" name="pallet_number" required>
+
+        <label for="pallet_type">Pallet Type:</label>
+        <select id="pallet_type" name="pallet_type" required>
+          <option value="Mixed">Mixed</option>
+          <option value="Standard">Standard</option>
+        </select>
+
+        <label for="pallet_contents">Pallet Contents:</label>
+        <select id="pallet_contents" name="pallet_contents" required>
+          <option value="Plastic">Plastic</option>
+          <option value="Electronics">Electronics</option>
+          <option value="Computers">Computers</option>
+          <option value="Mechanical">Mechanical</option>
+          <option value="Other">Other</option>
+        </select>
+        <input type="text" id="pallet_contents_other" name="pallet_contents_other" placeholder="If other, specify">
+
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" value="{{ today }}">
+
+        <h3>Parts</h3>
+        <div id="parts">
+          <div class="part">
+            <label for="part_number">Part Number:</label>
+            <input type="text" id="part_number" name="part_number" required>
+            <label for="description">Description:</label>
+            <input type="text" id="description" name="description" required>
+            <label for="qty_boxes">Qty Boxes:</label>
+            <input type="number" id="qty_boxes" name="qty_boxes" required>
+            <label for="total_qty">Total Qty:</label>
+            <input type="number" id="total_qty" name="total_qty" required>
+            <label for="from_locations">From Locations:</label>
+            <input type="text" id="from_locations" name="from_locations" required placeholder="Comma separated locations">
+            <button type="button" onclick="deletePart(this)">Delete Part</button>
+          </div>
+        </div>
+        <div class="btn-container">
+          <button type="button" class="add-part" onclick="addPart()">Add Part</button>
+          <button type="submit" class="create-traveler">Create Traveler</button>
+        </div>
+      </form>
+      <br>
+      <div class="btn-container">
+        <a href="/search" class="button search-travelers">Search Travelers</a>
+        <button onclick="window.location.href='/download_all'" class="button">Download All as Zip</button>
+      </div>
+    </div>
+    <script>
+      function addPart() {
+        const partDiv = document.createElement('div');
+        partDiv.className = 'part';
+        partDiv.innerHTML = `
+          <label for="part_number">Part Number:</label>
+          <input type="text" name="part_number" required>
+          <label for="description">Description:</label>
+          <input type="text" name="description" required>
+          <label for="qty_boxes">Qty Boxes:</label>
+          <input type="number" name="qty_boxes" required>
+          <label for="total_qty">Total Qty:</label>
+          <input type="number" name="total_qty" required>
+          <label for="from_locations">From Locations:</label>
+          <input type="text" name="from_locations" required placeholder="Comma separated locations">
+          <button type="button" onclick="deletePart(this)">Delete Part</button>
+        `;
+        document.getElementById('parts').appendChild(partDiv);
+      }
+
+      function deletePart(button) {
+        button.parentElement.remove();
+      }
+    </script>
+  </body>
+</html>
