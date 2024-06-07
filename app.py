@@ -156,16 +156,21 @@ def create_traveler():
     total_qty_list = request.form.getlist('total_qty')
     from_locations_list = request.form.getlist('from_locations')
 
+    print("Part Numbers:", part_numbers)  # Debug statement
+    print("Descriptions:", descriptions)  # Debug statement
+    print("Qty Boxes List:", qty_boxes_list)  # Debug statement
+    print("Total Qty List:", total_qty_list)  # Debug statement
+    print("From Locations List:", from_locations_list)  # Debug statement
+
     for i in range(len(part_numbers)):
-        if request.form.get(f'part_deleted_{i + 1}') == "false":  # Check if part is marked as deleted
-            part = {
-                "part_number": part_numbers[i],
-                "description": descriptions[i],
-                "qty_boxes": int(qty_boxes_list[i]),
-                "total_qty": int(total_qty_list[i]),
-                "from_locations": from_locations_list[i].split(',')
-            }
-            parts.append(part)
+        part = {
+            "part_number": part_numbers[i],
+            "description": descriptions[i],
+            "qty_boxes": int(qty_boxes_list[i]),
+            "total_qty": int(total_qty_list[i]),
+            "from_locations": from_locations_list[i].split(',')
+        }
+        parts.append(part)
 
     serial_number = data["last_serial_number"] + 1
     data["last_serial_number"] = serial_number
@@ -184,6 +189,7 @@ def create_traveler():
     save_data()
     pdf_path = generate_pdf(traveler)
     return send_file(pdf_path, as_attachment=True)
+
 
 @app.route('/download_all')
 def download_all():
